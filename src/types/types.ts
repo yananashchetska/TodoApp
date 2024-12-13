@@ -7,6 +7,8 @@ export type TodoItem = {
 
 export type TodoProps = {
   todos: TodoItem[];
+  onDelete: (id: number) => void;
+  onComplete: (id: number) => void;
 };
 
 export type SearchBarItem = {

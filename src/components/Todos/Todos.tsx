@@ -2,7 +2,7 @@ import React from "react";
 import { TodoProps } from "../../types/types";
 import { Todo } from "../Todo/Todo";
 
-export const Todos: React.FC<TodoProps> = React.memo (({ todos }) => {
+export const Todos: React.FC<TodoProps> = React.memo(({ todos, onDelete, onComplete }) => {
   console.log("rendering todos");
   return (
     <>
@@ -17,6 +17,8 @@ export const Todos: React.FC<TodoProps> = React.memo (({ todos }) => {
             title={todo.title}
             description={todo.description}
             isCompleted={todo.isCompleted}
+            onDelete={onDelete}
+            onComplete={onComplete}
           />
         ))}
       </ul>

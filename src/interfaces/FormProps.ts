@@ -7,3 +7,9 @@ export interface FormProps {
 export interface SearchProps {
   filterTasks: (task: string) => void;
 }
+
+export interface ITodoProps extends TodoItem {
+  onDelete: (id: number) => void;
+  onComplete: (id: number) => void;
+}
+

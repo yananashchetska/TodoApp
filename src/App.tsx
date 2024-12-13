@@ -15,8 +15,23 @@ function App() {
     setAllTodos((prevTodos: TodoItem[]) => [newTodo, ...prevTodos]);
   };
 
+  const deleteTodo = (todoId: number) => {
+    setAllTodos((currentTodos) =>
+      currentTodos.filter((currTodo) => currTodo.id !== todoId)
+    );
+  };
+
   const filterTasks = (query: string) => {
     setQuery(query);
+  };
+
+  const completeTodo = (todoId: number) => {
+
+    setAllTodos((currentTodos) =>
+      currentTodos.map((todo) =>
+        todo.id === todoId ? { ...todo, isCompleted: !todo.isCompleted } : todo
+      )
+    );
   };
 
   //FOR OPTIMIZATION TEST
@@ -48,7 +63,11 @@ function App() {
         <SearchBar filterTasks={filterTasks} />
         <p className="title is-size-4">Create new todo</p>
         <Form addTodo={addTodo} />
-        <Todos todos={filteredTodos} />
+        <Todos
+          todos={filteredTodos}
+          onDelete={deleteTodo}
+          onComplete={completeTodo}
+        />
       </div>
     </div>
   );
