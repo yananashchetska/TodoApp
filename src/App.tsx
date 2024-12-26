@@ -3,47 +3,60 @@ import todos from "./data/todos.json";
 import { Todos } from "./components/Todos/Todos";
 import { Form } from "./components/Form/Form";
 import { TodoItem } from "./types/types";
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { SearchBar } from "./components/SearchBar/SearchBar";
+import { Button } from "./components/Button/Button";
 
 function App() {
   const [allTodos, setAllTodos] = useState(todos);
-  const [count, setCount] = useState(0);
   const [query, setQuery] = useState("");
+  const [count, setCount] = useState(0);
 
-  const addTodo = (newTodo: TodoItem) => {
-    setAllTodos((prevTodos: TodoItem[]) => [newTodo, ...prevTodos]);
-  };
+  const getMaxId = useMemo(() => {
+    return (todos: TodoItem[]) => Math.max(0, ...todos.map(todo => todo.id));
+  }, []);
 
-  const deleteTodo = (todoId: number) => {
+  const addTodo = useCallback((todo: TodoItem) => {
+    setAllTodos((prevTodos: TodoItem[]) => {
+      const newTodo = {
+        ...todo,
+        id: getMaxId(prevTodos) + 1,
+      };
+
+      return [newTodo, ...prevTodos];
+    });
+  }, []);
+
+  const deleteTodo = useCallback((todoId: number) => {
     setAllTodos((currentTodos) =>
       currentTodos.filter((currTodo) => currTodo.id !== todoId)
     );
-  };
+  }, []);
 
-  const filterTasks = (query: string) => {
+  const filterTasks = useCallback((query: string) => {
     setQuery(query);
-  };
-
-  const completeTodo = (todoId: number) => {
-
+    console.log('query is: ' + query);
+  }, []);
+  
+  const filteredTodos = query
+  ? allTodos.filter((todo) => todo.title.includes(query))
+    : allTodos;
+  
+  const completeTodo = useCallback((todoId: number) => {
     setAllTodos((currentTodos) =>
       currentTodos.map((todo) =>
         todo.id === todoId ? { ...todo, isCompleted: !todo.isCompleted } : todo
       )
     );
-  };
+  }, []);
 
-  //FOR OPTIMIZATION TEST
-  const handleButtonClick = () => {
+  const increaseCount = useCallback(() => {
     setCount((prev) => prev + 1);
-  };
+    console.log("count is: " + count);
+  }, [count]);
 
-  const filteredTodos = useMemo(() => {
-    return query
-      ? allTodos.filter((todo) => todo.title.includes(query))
-      : allTodos;
-  }, [query, allTodos]);
+
+  console.log("app is rendering");
 
   return (
     <div
@@ -56,9 +69,7 @@ function App() {
       <div className="content">
         <h1 className="title is-size-1">Your todos:</h1>
         <p className="title is-size-4">Test optimization</p>
-        <button className="button" onClick={handleButtonClick}>
-          {count}
-        </button>
+        <Button increaseCount={increaseCount} count={count} />
         <p className="title is-size-4">Search by title</p>
         <SearchBar filterTasks={filterTasks} />
         <p className="title is-size-4">Create new todo</p>

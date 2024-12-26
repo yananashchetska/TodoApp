@@ -1,11 +1,11 @@
 import React from "react";
-import { TodoProps } from "../../types/types";
+import { TodoListProps } from "../../types/types";
 import { Todo } from "../Todo/Todo";
 
-export const Todos: React.FC<TodoProps> = React.memo(({ todos, onDelete, onComplete }) => {
-  console.log("rendering todos");
-  return (
-    <>
+export const Todos: React.FC<TodoListProps> = React.memo(
+  ({ todos, onDelete, onComplete }) => {
+    console.log("TODOS are rendering");
+    return (
       <ul
         className="is-flex is-flex-direction-column"
         style={{ width: "50vw" }}
@@ -22,6 +22,6 @@ export const Todos: React.FC<TodoProps> = React.memo(({ todos, onDelete, onCompl
           />
         ))}
       </ul>
-    </>
-  );
-});
+    );
+  }
+);

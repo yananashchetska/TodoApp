@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import classnames from "classnames";
 import { TodoItem } from "../../types/types";
-import { FormProps } from "../../interfaces/FormProps";
+import { FormProps } from "../../types/types";
 import './Form.css'
 
 
@@ -16,7 +16,7 @@ export const Form: React.FC<FormProps> = ({ addTodo }) => {
 
   const [state, setState] = useState(initialState);
 
-  const validateForm = () => {
+  const validateForm = useCallback((): boolean => {
     const titleError = !state.title.trim();
     const descriptionError = !state.description.trim();
 
@@ -26,7 +26,7 @@ export const Form: React.FC<FormProps> = ({ addTodo }) => {
     }));
 
     return !(titleError || descriptionError);
-  };
+  }, [state.title, state.description]);
 
   const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -50,6 +50,8 @@ export const Form: React.FC<FormProps> = ({ addTodo }) => {
     setState(initialState);
   }
 
+  console.log('form is rendering');
+  
   return (
     <form
       onSubmit={submitHandler}

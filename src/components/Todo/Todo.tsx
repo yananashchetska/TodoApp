@@ -1,11 +1,11 @@
 import React from "react";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ITodoProps } from "../../interfaces/FormProps";
+import { TodoItemProps } from "../../types/types";
 import { faCheckCircle, faCircle } from "@fortawesome/free-regular-svg-icons";
 
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-export const Todo: React.FC<ITodoProps> = ({
+export const Todo: React.FC<TodoItemProps> = React.memo (({
   id,
   title,
   description,
@@ -20,6 +20,9 @@ export const Todo: React.FC<ITodoProps> = ({
   const handleComplete = () => {
     onComplete(id);
   }
+
+  console.log(`${id} todo is rendering`);
+  
   return (
     <li 
       key={id} 
@@ -55,4 +58,4 @@ export const Todo: React.FC<ITodoProps> = ({
       </div>
     </li>
   );
-};
+});

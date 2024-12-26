@@ -5,12 +5,27 @@ export type TodoItem = {
   isCompleted: boolean;
 };
 
-export type TodoProps = {
-  todos: TodoItem[];
+type TodoActions = {
   onDelete: (id: number) => void;
   onComplete: (id: number) => void;
 };
 
-export type SearchBarItem = {
-  query: string;
-};
+export type TodoListProps = {
+  todos: TodoItem[];
+} & TodoActions;
+
+export type TodoItemProps = TodoItem & TodoActions;
+
+export type FormProps = {
+  addTodo: (todo: TodoItem) => void;
+}
+
+export type SearchProps = {
+  // query: string;
+  filterTasks: (task: string) => void;
+}
+
+export type ButtonProps = {
+  count: number;
+  increaseCount: (count: number) => void;
+}
